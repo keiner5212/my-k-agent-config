@@ -1,0 +1,30 @@
+{
+  "modelEffort:93151045-298d-44ea-a899-f91d3091ec4b:MiniMax-M3": "high",
+  "selectedModel": {
+    "modelId": "MiniMax-M3",
+    "providerId": "93151045-298d-44ea-a899-f91d3091ec4b"
+  },
+  "settings": {
+    "animationsEnabled": true,
+    "globalSkillsPath": "~/.k-agent/skills",
+    "keybindings": {
+      "chat.clear": "Alt+C",
+      "settings.close": "Escape",
+      "settings.open": "Ctrl+P",
+      "sidebar.toggle": "Ctrl+B"
+    },
+    "language": "en",
+    "maxWorkerCores": 0,
+    "minimizeToTray": true,
+    "rememberWindowSize": true,
+    "sessionSidebarOpen": true,
+    "textScale": 1,
+    "theme": "dark",
+    "translucencyEnabled": true,
+    "windowBounds": {
+      "height": 778,
+      "maximized": false,
+      "width": 1347
+    }
+  }
+}
