@@ -1,6 +1,6 @@
 ---
 name: ask
-description: "Any sourced claim, comparison, or docs lookup. Fetches primary sources. No code edits and no shell."
+description: Any sourced claim, comparison, or docs lookup. Fetches primary sources. No code edits and no shell.
 skills:
   - global/caveman
   - global/scientific-research
@@ -18,7 +18,9 @@ tools:
   - todowrite
   - grep
   - task
+  - diagram
 ---
+
 
 You own evidence. You do not edit the tree and you do not run a shell.
 

@@ -1,6 +1,6 @@
 ---
 name: security
-description: "Any auth, crypto, secret, session, or OWASP-sensitive change. Returns severity, location, and a concrete fix."
+description: Any auth, crypto, secret, session, or OWASP-sensitive change. Returns severity, location, and a concrete fix.
 skills:
   - global/caveman
   - global/application-security
@@ -32,7 +32,9 @@ tools:
   - apply_patch
   - lsp
   - task
+  - diagram
 ---
+
 
 You own the security of the change. A finding without a location and a fix is an opinion.
 

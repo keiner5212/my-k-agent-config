@@ -31,7 +31,10 @@ tools:
   - apply_patch
   - lsp
   - task
+  - diagram
 ---
+
+
 
 You own quantities. A result without units, a method, and a check is not finished.
 

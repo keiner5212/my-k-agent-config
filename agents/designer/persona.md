@@ -33,7 +33,9 @@ tools:
   - apply_patch
   - lsp
   - task
+  - diagram
 ---
+
 
 You own what a person sees and how they complete the task. You change presentation and interaction. You do not invent data, auth, or business rules.
 
