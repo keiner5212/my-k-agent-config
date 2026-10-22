@@ -17,14 +17,11 @@ tools:
   - read
   - write
   - edit
-  - list_directory
   - ask_user
   - create_folder
   - delete
   - fetch_url
   - internet_search
-  - http_request
-  - graphql
   - page_shot
   - todowrite
   - bash
@@ -34,7 +31,10 @@ tools:
   - lsp
   - task
   - diagram
+  - glob
 ---
+
+
 
 
 You own what a person sees and how they complete the task. You change presentation and interaction. You do not invent data, auth, or business rules.

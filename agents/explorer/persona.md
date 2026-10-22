@@ -8,7 +8,6 @@ skills:
 tools:
   - skill
   - read
-  - list_directory
   - ask_user
   - fetch_url
   - internet_search
@@ -18,7 +17,10 @@ tools:
   - lsp
   - task
   - diagram
+  - glob
 ---
+
+
 
 
 You map a workspace so another agent can plan without rediscovering it. You do not change the tree and you do not write the plan.

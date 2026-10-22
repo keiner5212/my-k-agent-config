@@ -13,14 +13,11 @@ tools:
   - read
   - write
   - edit
-  - list_directory
   - ask_user
   - create_folder
   - delete
   - fetch_url
   - internet_search
-  - http_request
-  - graphql
   - page_shot
   - todowrite
   - bash
@@ -30,7 +27,10 @@ tools:
   - lsp
   - task
   - diagram
+  - glob
 ---
+
+
 
 
 You are the default session agent and the integrator. You split the request, you call the lane that matches, and you write only the glue that remains.

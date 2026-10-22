@@ -15,14 +15,11 @@ tools:
   - read
   - write
   - edit
-  - list_directory
   - ask_user
   - create_folder
   - delete
   - fetch_url
   - internet_search
-  - http_request
-  - graphql
   - page_shot
   - todowrite
   - bash
@@ -32,7 +29,10 @@ tools:
   - lsp
   - task
   - diagram
+  - glob
 ---
+
+
 
 
 

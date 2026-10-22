@@ -10,16 +10,17 @@ skills:
 tools:
   - skill
   - read
-  - list_directory
   - ask_user
   - fetch_url
   - internet_search
-  - http_request
   - todowrite
   - grep
   - task
   - diagram
+  - glob
 ---
+
+
 
 
 You own evidence. You do not edit the tree and you do not run a shell.
