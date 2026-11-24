@@ -1,0 +1,1255 @@
+{
+  "id": "global/excel-tools",
+  "scope": "global",
+  "name": "excel tools",
+  "enabled": false,
+  "transport": "stdio",
+  "command": "/home/keiner5212/Documentos/personal-mcps/spreadsheet-tools-linux-x86_64/spreadsheet-tools-linux-x86_64",
+  "tools": [
+    {
+      "name": "add_sheet",
+      "description": "Add a new empty sheet to an existing workbook.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    sheet: Name for the new sheet.\n    position: Zero-based insertion index. Omit to append at end.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "sheet": {
+            "title": "Sheet",
+            "type": "string"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Position"
+          }
+        },
+        "required": [
+          "file",
+          "sheet"
+        ],
+        "type": "object",
+        "title": "add_sheetArguments"
+      }
+    },
+    {
+      "name": "audit_range",
+      "description": "List all master cells in a range with their is_empty flag.\n\nSlave cells (non-master side of a merge) are skipped by default.\nReturns per-cell status and summary counts (total_master, empty_master, filled_master).\n\nRow indices are ZERO-BASED.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    from_col: Start column letter.\n    to_col: End column letter.\n    from_row: Zero-based start row.\n    to_row: Zero-based end row (inclusive).\n    sheet: Sheet name. Defaults to active sheet.\n    show_slaves: Include slave (non-writable) cells in output.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "from_col": {
+            "title": "From Col",
+            "type": "string"
+          },
+          "to_col": {
+            "title": "To Col",
+            "type": "string"
+          },
+          "from_row": {
+            "title": "From Row",
+            "type": "integer"
+          },
+          "to_row": {
+            "title": "To Row",
+            "type": "integer"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "show_slaves": {
+            "default": false,
+            "title": "Show Slaves",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file",
+          "from_col",
+          "to_col",
+          "from_row",
+          "to_row"
+        ],
+        "type": "object",
+        "title": "audit_rangeArguments"
+      }
+    },
+    {
+      "name": "auto_filter",
+      "description": "Enable auto-filter on a header range, or clear it when cell_range is omitted.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell_range: Header row range for auto-filter (e.g. \"A8:E8\"). Omit to clear.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell_range": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Cell Range"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "auto_filterArguments"
+      }
+    },
+    {
+      "name": "batch_edit",
+      "description": "Apply multiple cell edits atomically in a single save. Preferred over repeated edit_cell.\n\nAll addresses are validated upfront — if any fail, the file is never modified.\nSlave cells auto-redirect to their master cell (with a warning).\n\nEach edit dict format:\n{\n  \"cell\": \"D325\",           # required\n  \"value\": \"Description\",  # optional: new value\n  \"clear\": true,           # optional: clear the cell\n  \"style\": {\"alignment\": {\"wrap_text\": true}}  # optional: style overrides\n}\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    edits: List of edit dicts (see format above).\n    sheet: Sheet name. Defaults to active sheet.\n    dry_run: Validate and preview without saving.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "edits": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Edits",
+            "type": "array"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file",
+          "edits"
+        ],
+        "type": "object",
+        "title": "batch_editArguments"
+      }
+    },
+    {
+      "name": "batch_set_dimensions",
+      "description": "Set multiple column widths and/or row heights in a single save.\n\nPreferred over repeated set_column_width / set_row_height calls.\n\ncolumn_widths format: [{\"col\": \"A\", \"width\": 8}, {\"col\": \"B\", \"width\": 20}]\nrow_heights format:   [{\"row\": 1, \"height\": 40}, {\"row\": 8, \"height\": 25}]\nRow numbers in row_heights are 1-BASED (Excel convention).\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    column_widths: List of column width dicts. At least one of column_widths/row_heights required.\n    row_heights: List of row height dicts. Row numbers are 1-based.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "column_widths": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Column Widths"
+          },
+          "row_heights": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Row Heights"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "batch_set_dimensionsArguments"
+      }
+    },
+    {
+      "name": "cell_style",
+      "description": "Read style metadata for a single cell: font, fill, alignment, border, number format.\n\nUse sparingly — heavier than value reads.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell: Cell address (e.g. \"B3\").\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell": {
+            "title": "Cell",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell"
+        ],
+        "type": "object",
+        "title": "cell_styleArguments"
+      }
+    },
+    {
+      "name": "copy_sheet",
+      "description": "Duplicate a sheet within the same workbook.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    source_sheet: Name of the sheet to copy.\n    target_sheet: Name for the new copy.\n    overwrite: Overwrite target_sheet if it already exists.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "source_sheet": {
+            "title": "Source Sheet",
+            "type": "string"
+          },
+          "target_sheet": {
+            "title": "Target Sheet",
+            "type": "string"
+          },
+          "overwrite": {
+            "default": false,
+            "title": "Overwrite",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file",
+          "source_sheet",
+          "target_sheet"
+        ],
+        "type": "object",
+        "title": "copy_sheetArguments"
+      }
+    },
+    {
+      "name": "create_empty_workbook",
+      "description": "Create a new empty Excel workbook.\n\nPass any file path. Absolute paths and '~' write that file wherever it is.\nMissing parent directories are created. Bare filenames (no directory\nseparator) go to workspace/ next to the client cwd:\n    create_empty_workbook(\"report.xlsx\")           -> workspace/report.xlsx\n    create_empty_workbook(\"/tmp/report.xlsx\")      -> /tmp/report.xlsx\n    create_empty_workbook(\"~/docs/report.xlsx\")    -> ~/docs/report.xlsx\n    create_empty_workbook(\"output/report.xlsx\")    -> output/report.xlsx\n\nArgs:\n    filename: Output path. Bare name -> workspace/ automatically.\n    sheet: Name of the first sheet.",
+      "inputSchema": {
+        "properties": {
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "sheet": {
+            "default": "Sheet1",
+            "title": "Sheet",
+            "type": "string"
+          }
+        },
+        "required": [
+          "filename"
+        ],
+        "type": "object",
+        "title": "create_empty_workbookArguments"
+      }
+    },
+    {
+      "name": "describe_section",
+      "description": "Audit a strategy table for name/description consistency issues.\n\nIssues detected per row:\n- generic_name (warning): name matches \"Estrategia de X N\" pattern\n- missing_description (error): name present but description empty\n- name_desc_mismatch (error): keyword overlap < 30%\n- missing_cost (warning): cost cell is empty\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    data_rows: Zero-based row range as \"START-END\", e.g. \"325-328\".\n    sheet: Sheet name. Defaults to active sheet.\n    name_col: Column letter with strategy names.\n    desc_col: Column letter with descriptions.\n    cost_col: Column letter with annual costs. Pass \"\" to skip cost check.\n    header_row: Optional zero-based header row index.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "data_rows": {
+            "title": "Data Rows",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "name_col": {
+            "default": "B",
+            "title": "Name Col",
+            "type": "string"
+          },
+          "desc_col": {
+            "default": "D",
+            "title": "Desc Col",
+            "type": "string"
+          },
+          "cost_col": {
+            "default": "L",
+            "title": "Cost Col",
+            "type": "string"
+          },
+          "header_row": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Header Row"
+          }
+        },
+        "required": [
+          "file",
+          "data_rows"
+        ],
+        "type": "object",
+        "title": "describe_sectionArguments"
+      }
+    },
+    {
+      "name": "edit_cell",
+      "description": "Edit a single cell's value and/or style.\n\nAt least one of value, clear, or style must be provided.\n\nStyle keys (all optional, partial updates supported):\n{\n  \"font\": {\"name\": \"Arial\", \"size\": 12, \"bold\": true, \"italic\": false, \"color\": \"FF0000\"},\n  \"fill\": {\"fill_type\": \"solid\", \"start_color\": \"FFFF00\"},\n  \"alignment\": {\"horizontal\": \"center\", \"vertical\": \"center\", \"wrap_text\": true},\n  \"number_format\": \"0.00\",\n  \"comment\": \"Review this\",\n  \"hyperlink\": \"https://example.com\"\n}\nColors are 6-char hex RGB without # (e.g. \"FF0000\" for red).\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell: Cell address (e.g. \"B3\").\n    value: New cell value. Omit to keep existing value.\n    clear: Set true to clear the cell value.\n    style: Style overrides dict. Omit to keep existing style.\n    sheet: Sheet name. Defaults to active sheet.\n    dry_run: Apply in memory without saving.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell": {
+            "title": "Cell",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Value"
+          },
+          "clear": {
+            "default": false,
+            "title": "Clear",
+            "type": "boolean"
+          },
+          "style": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Style"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file",
+          "cell"
+        ],
+        "type": "object",
+        "title": "edit_cellArguments"
+      }
+    },
+    {
+      "name": "find",
+      "description": "Search for text across all cell values in the workbook (or a specific sheet).\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    query: Text to search for.\n    sheet: Limit search to this sheet. Omit to search all sheets.\n    case_sensitive: Match case exactly.\n    max_results: Maximum number of results to return.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "case_sensitive": {
+            "default": false,
+            "title": "Case Sensitive",
+            "type": "boolean"
+          },
+          "max_results": {
+            "default": 50,
+            "title": "Max Results",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "file",
+          "query"
+        ],
+        "type": "object",
+        "title": "findArguments"
+      }
+    },
+    {
+      "name": "find_replace",
+      "description": "Search cell values and optionally replace matches.\n\nWithout replace_with: find-only mode, no file write.\nWithout use_regex: entire cell value must equal query.\nWith use_regex: substring match via re.sub.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    query: Search string or regex pattern.\n    replace_with: Replacement value. Omit for find-only.\n    sheet: Limit to this sheet. Omit for all sheets.\n    case_sensitive: Match case exactly.\n    use_regex: Treat query as a regex pattern.\n    dry_run: Preview matches without writing the file.\n    max_results: Maximum matches to return.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "replace_with": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Replace With"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "case_sensitive": {
+            "default": false,
+            "title": "Case Sensitive",
+            "type": "boolean"
+          },
+          "use_regex": {
+            "default": false,
+            "title": "Use Regex",
+            "type": "boolean"
+          },
+          "dry_run": {
+            "default": false,
+            "title": "Dry Run",
+            "type": "boolean"
+          },
+          "max_results": {
+            "default": 200,
+            "title": "Max Results",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "file",
+          "query"
+        ],
+        "type": "object",
+        "title": "find_replaceArguments"
+      }
+    },
+    {
+      "name": "format_range",
+      "description": "Apply the same style to every master cell in a rectangular range.\n\nSlave cells are skipped automatically. Partial style updates supported —\nomitted keys leave existing style unchanged.\n\nStyle keys (see edit_cell for full schema):\n{\"font\": {\"bold\": true, \"color\": \"FFFFFF\"}, \"fill\": {\"fill_type\": \"solid\", \"start_color\": \"1F4E79\"}}\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell_range: Range to format, e.g. \"A8:E8\".\n    style: Style overrides dict.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell_range": {
+            "title": "Cell Range",
+            "type": "string"
+          },
+          "style": {
+            "additionalProperties": true,
+            "title": "Style",
+            "type": "object"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell_range",
+          "style"
+        ],
+        "type": "object",
+        "title": "format_rangeArguments"
+      }
+    },
+    {
+      "name": "freeze_panes",
+      "description": "Freeze rows above and columns to the left of a given cell.\n\nExamples:\n- cell=\"B2\" → freeze row 1 and column A (most common for tables)\n- cell=\"A2\" → freeze only row 1\n- cell=\"B1\" → freeze only column A\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell: Freeze point cell address (e.g. \"B2\").\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell": {
+            "title": "Cell",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell"
+        ],
+        "type": "object",
+        "title": "freeze_panesArguments"
+      }
+    },
+    {
+      "name": "list_sheets",
+      "description": "List all sheet names in an Excel workbook.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "list_sheetsArguments"
+      }
+    },
+    {
+      "name": "list_snapshots",
+      "description": "List all available snapshots for a workbook/sheet.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "list_snapshotsArguments"
+      }
+    },
+    {
+      "name": "merge_cells",
+      "description": "Merge a rectangular cell range. Master cell (top-left) keeps value and style.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell_range: Range to merge, e.g. \"A1:E1\".\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell_range": {
+            "title": "Cell Range",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell_range"
+        ],
+        "type": "object",
+        "title": "merge_cellsArguments"
+      }
+    },
+    {
+      "name": "read_cell",
+      "description": "Read a single cell value.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell: Cell address in Excel notation (e.g. \"B3\").\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell": {
+            "title": "Cell",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell"
+        ],
+        "type": "object",
+        "title": "read_cellArguments"
+      }
+    },
+    {
+      "name": "read_range",
+      "description": "Read a rectangular range of cells, returning values only (no formatting).\n\nRow indices are ZERO-BASED: Excel row 1 = from_row=0.\nColumns use Excel letters: A, B, C, ...\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    from_col: Start column letter (e.g. \"A\").\n    to_col: End column letter (e.g. \"L\").\n    from_row: Zero-based start row (Excel row 1 → 0).\n    to_row: Zero-based end row (inclusive).\n    sheet: Sheet name. Defaults to active sheet.\n    include_empty_rows: Keep fully blank rows in output.\n    keep_trailing_empty: Do not trim trailing empty rows/columns.\n    include_formulas: Return formula text instead of computed values.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "from_col": {
+            "title": "From Col",
+            "type": "string"
+          },
+          "to_col": {
+            "title": "To Col",
+            "type": "string"
+          },
+          "from_row": {
+            "title": "From Row",
+            "type": "integer"
+          },
+          "to_row": {
+            "title": "To Row",
+            "type": "integer"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "include_empty_rows": {
+            "default": false,
+            "title": "Include Empty Rows",
+            "type": "boolean"
+          },
+          "keep_trailing_empty": {
+            "default": false,
+            "title": "Keep Trailing Empty",
+            "type": "boolean"
+          },
+          "include_formulas": {
+            "default": false,
+            "title": "Include Formulas",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file",
+          "from_col",
+          "to_col",
+          "from_row",
+          "to_row"
+        ],
+        "type": "object",
+        "title": "read_rangeArguments"
+      }
+    },
+    {
+      "name": "rename_sheet",
+      "description": "Rename a sheet. Fails if old name not found or new name already taken.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    old_name: Current sheet name.\n    new_name: New sheet name.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "old_name": {
+            "title": "Old Name",
+            "type": "string"
+          },
+          "new_name": {
+            "title": "New Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file",
+          "old_name",
+          "new_name"
+        ],
+        "type": "object",
+        "title": "rename_sheetArguments"
+      }
+    },
+    {
+      "name": "section_map",
+      "description": "Auto-discover numbered section headers (e.g. \"1.2.3 Title\") and their row ranges.\n\nReturns header text, prefix, title, depth, header_row, and row_range for each section.\nUse before bulk-editing to understand the sheet layout.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    sheet: Sheet name. Defaults to active sheet.\n    min_row: Zero-based start row for scan.\n    max_row: Zero-based end row for scan (default: sheet max).",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "min_row": {
+            "default": 0,
+            "title": "Min Row",
+            "type": "integer"
+          },
+          "max_row": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Max Row"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "section_mapArguments"
+      }
+    },
+    {
+      "name": "set_column_width",
+      "description": "Set width of a single column in Excel character units.\n\nFor 3+ columns, prefer batch_set_dimensions (single save).\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    col: Column letter (e.g. \"A\").\n    width: Width in Excel character units.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "col": {
+            "title": "Col",
+            "type": "string"
+          },
+          "width": {
+            "title": "Width",
+            "type": "number"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "col",
+          "width"
+        ],
+        "type": "object",
+        "title": "set_column_widthArguments"
+      }
+    },
+    {
+      "name": "set_row_height",
+      "description": "Set height of a single row in points. Row number is 1-BASED (Excel convention).\n\nFor 3+ rows, prefer batch_set_dimensions (single save).\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    row: Row number, 1-based (Excel row 1 = row=1).\n    height: Height in points.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "row": {
+            "title": "Row",
+            "type": "integer"
+          },
+          "height": {
+            "title": "Height",
+            "type": "number"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "row",
+          "height"
+        ],
+        "type": "object",
+        "title": "set_row_heightArguments"
+      }
+    },
+    {
+      "name": "set_tab_color",
+      "description": "Set the sheet tab color.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    color: 6-char RGB hex string without # (e.g. \"1F4E79\" for dark blue, \"70AD47\" for green).\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "color": {
+            "title": "Color",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "color"
+        ],
+        "type": "object",
+        "title": "set_tab_colorArguments"
+      }
+    },
+    {
+      "name": "sheet_info",
+      "description": "Return sheet structure: dimensions, all merged cell ranges, freeze panes, filters.\n\nAlways call this before editing a sheet with merged cells.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    sheet: Sheet name. Defaults to the active (first) sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "sheet_infoArguments"
+      }
+    },
+    {
+      "name": "snapshot",
+      "description": "Capture all non-empty cell values as a named snapshot for later comparison.\n\nTake a snapshot with tag=\"before\" before any destructive batch operation.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    tag: Snapshot name (e.g. \"before-edit\", \"after-fill\").\n    sheet: Sheet name. Defaults to active sheet.\n    description: Optional human-readable note stored with the snapshot.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "tag": {
+            "title": "Tag",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          }
+        },
+        "required": [
+          "file",
+          "tag"
+        ],
+        "type": "object",
+        "title": "snapshotArguments"
+      }
+    },
+    {
+      "name": "snapshot_diff",
+      "description": "Compare two snapshots and list per-cell changes.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    tag_a: First snapshot tag (e.g. \"before-edit\").\n    tag_b: Second snapshot tag (e.g. \"after-edit\").\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "tag_a": {
+            "title": "Tag A",
+            "type": "string"
+          },
+          "tag_b": {
+            "title": "Tag B",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "tag_a",
+          "tag_b"
+        ],
+        "type": "object",
+        "title": "snapshot_diffArguments"
+      }
+    },
+    {
+      "name": "unfreeze_panes",
+      "description": "Remove all freeze panes from a sheet.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "unfreeze_panesArguments"
+      }
+    },
+    {
+      "name": "unmerge_cells",
+      "description": "Remove merge from a cell range. Cells become independent again.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    cell_range: Range to unmerge, e.g. \"A1:E1\".\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "cell_range": {
+            "title": "Cell Range",
+            "type": "string"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "cell_range"
+        ],
+        "type": "object",
+        "title": "unmerge_cellsArguments"
+      }
+    },
+    {
+      "name": "validate",
+      "description": "Apply one or more validation rules against a sheet.\n\nRule syntax examples:\n- \"not-empty:D325\"\n- \"not-empty-range:D325:D328\"\n- \"price-min-max:F308:H308\"\n- \"name-matches-desc:B325:D325\"\n- \"numeric-range:L317:50000:2000000\"\n- \"string-contains:D317:Descuento\"\n- \"no-generic-name:B325\"\n\nArgs:\n    file: Path to .xlsx or .xlsm file.\n    rules: List of rule strings in \"rule-name:ARGS\" format.\n    sheet: Sheet name. Defaults to active sheet.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "rules": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Rules",
+            "type": "array"
+          },
+          "sheet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sheet"
+          }
+        },
+        "required": [
+          "file",
+          "rules"
+        ],
+        "type": "object",
+        "title": "validateArguments"
+      }
+    },
+    {
+      "name": "workbook_info",
+      "description": "Return workbook-level metadata: sheet names, active sheet, defined names.\n\nArgs:\n    file: Path to .xlsx or .xlsm file.",
+      "inputSchema": {
+        "properties": {
+          "file": {
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "title": "workbook_infoArguments"
+      }
+    }
+  ],
+  "toolsSyncedAt": 1792651315
+}

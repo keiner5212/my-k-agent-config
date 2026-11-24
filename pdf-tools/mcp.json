@@ -1,0 +1,1477 @@
+{
+  "id": "global/pdf-tools",
+  "scope": "global",
+  "name": "pdf tools",
+  "enabled": false,
+  "transport": "stdio",
+  "command": "/home/keiner5212/Documentos/personal-mcps/pdf-ai-tools-linux-x86_64/pdf-ai-tools-linux-x86_64",
+  "tools": [
+    {
+      "name": "pdf_create_document",
+      "description": "\nStart a new PDF document session.\n\nReturns a doc_id required by all other tools.\npage_size: A4, LETTER, A4_LANDSCAPE or LETTER_LANDSCAPE.\nColors and fonts come from a palette: call pdf_apply_palette right after.\n",
+      "inputSchema": {
+        "properties": {
+          "output_path": {
+            "title": "Output Path",
+            "type": "string"
+          },
+          "page_size": {
+            "default": "A4",
+            "title": "Page Size",
+            "type": "string"
+          },
+          "margin_left_cm": {
+            "default": 2.5,
+            "title": "Margin Left Cm",
+            "type": "number"
+          },
+          "margin_right_cm": {
+            "default": 2.5,
+            "title": "Margin Right Cm",
+            "type": "number"
+          },
+          "margin_top_cm": {
+            "default": 2.5,
+            "title": "Margin Top Cm",
+            "type": "number"
+          },
+          "margin_bottom_cm": {
+            "default": 2.5,
+            "title": "Margin Bottom Cm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "output_path"
+        ],
+        "type": "object",
+        "title": "pdf_create_documentArguments"
+      }
+    },
+    {
+      "name": "pdf_set_metadata",
+      "description": "\nSet PDF document metadata.\n\ntitle, author, subject, keywords: document information.\nlanguage: the document language as a BCP 47 tag, e.g. 'ja-JP' or 'ar-EG'.\n          Screen readers use it to pick the right voice.\ncreator: the tool that produced the document.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "author": {
+            "default": "",
+            "title": "Author",
+            "type": "string"
+          },
+          "subject": {
+            "default": "",
+            "title": "Subject",
+            "type": "string"
+          },
+          "keywords": {
+            "default": "",
+            "title": "Keywords",
+            "type": "string"
+          },
+          "language": {
+            "default": "",
+            "title": "Language",
+            "type": "string"
+          },
+          "creator": {
+            "default": "",
+            "title": "Creator",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_set_metadataArguments"
+      }
+    },
+    {
+      "name": "pdf_save_document",
+      "description": "\nBuild and write the PDF to disk. The session is closed after saving.\n\npages: keep only these pages, 1-based, e.g. '1-3,5'. Empty writes all.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "pages": {
+            "default": "",
+            "title": "Pages",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_save_documentArguments"
+      }
+    },
+    {
+      "name": "pdf_get_document_state",
+      "description": "Inspect the current document structure without saving.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_get_document_stateArguments"
+      }
+    },
+    {
+      "name": "pdf_list_documents",
+      "description": "List all active (unsaved) document sessions.",
+      "inputSchema": {
+        "properties": {},
+        "type": "object",
+        "title": "pdf_list_documentsArguments"
+      }
+    },
+    {
+      "name": "pdf_list_palettes",
+      "description": "\nList available color palettes.\n\nLists the built-in palettes. Pass extra_dir to also list\npalettes in another directory.\n",
+      "inputSchema": {
+        "properties": {
+          "extra_dir": {
+            "default": "",
+            "title": "Extra Dir",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "title": "pdf_list_palettesArguments"
+      }
+    },
+    {
+      "name": "pdf_apply_palette",
+      "description": "\nApply a color palette to an active document session.\n\npalette_name_or_path: built-in palette name (e.g. 'ocean_blue') OR\nabsolute/relative path to a custom .json palette file.\nThis overrides the theme set at document creation.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "palette_name_or_path": {
+            "title": "Palette Name Or Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "palette_name_or_path"
+        ],
+        "type": "object",
+        "title": "pdf_apply_paletteArguments"
+      }
+    },
+    {
+      "name": "pdf_export_palette",
+      "description": "\nExport the current document's theme/palette to a reusable JSON file.\n\nThe exported file can later be used with pdf_apply_palette.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "output_path": {
+            "title": "Output Path",
+            "type": "string"
+          },
+          "name": {
+            "default": "",
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "output_path"
+        ],
+        "type": "object",
+        "title": "pdf_export_paletteArguments"
+      }
+    },
+    {
+      "name": "pdf_create_palette_from_colors",
+      "description": "\nCreate and save a custom color palette JSON from individual color values.\n\nAll colors accept hex (#RRGGBB), named colors, or 'r,g,b' floats.\nFonts must be standard PDF fonts: Helvetica, Times-Roman, Courier (and their -Bold/-Oblique variants).\n",
+      "inputSchema": {
+        "properties": {
+          "output_path": {
+            "title": "Output Path",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "primary": {
+            "default": "#1a365d",
+            "title": "Primary",
+            "type": "string"
+          },
+          "secondary": {
+            "default": "#2c5282",
+            "title": "Secondary",
+            "type": "string"
+          },
+          "accent": {
+            "default": "#3182ce",
+            "title": "Accent",
+            "type": "string"
+          },
+          "muted": {
+            "default": "#718096",
+            "title": "Muted",
+            "type": "string"
+          },
+          "border": {
+            "default": "#e2e8f0",
+            "title": "Border",
+            "type": "string"
+          },
+          "background": {
+            "default": "#f7fafc",
+            "title": "Background",
+            "type": "string"
+          },
+          "body_font": {
+            "default": "Helvetica",
+            "title": "Body Font",
+            "type": "string"
+          },
+          "heading_font": {
+            "default": "Helvetica-Bold",
+            "title": "Heading Font",
+            "type": "string"
+          },
+          "body_size": {
+            "default": 11,
+            "title": "Body Size",
+            "type": "number"
+          },
+          "h1_size": {
+            "default": 22,
+            "title": "H1 Size",
+            "type": "number"
+          },
+          "h2_size": {
+            "default": 16,
+            "title": "H2 Size",
+            "type": "number"
+          },
+          "h3_size": {
+            "default": 13,
+            "title": "H3 Size",
+            "type": "number"
+          },
+          "caption_size": {
+            "default": 9,
+            "title": "Caption Size",
+            "type": "number"
+          }
+        },
+        "required": [
+          "output_path",
+          "name"
+        ],
+        "type": "object",
+        "title": "pdf_create_palette_from_colorsArguments"
+      }
+    },
+    {
+      "name": "pdf_list_fonts",
+      "description": "\nList the fonts installed on this machine.\n\nquery: filter by family, style or path, e.g. 'noto' or 'arabic'.\nfor_text: only fonts that can draw every character of this text.\ndirectory: extra directory to search, added to the system font folders.\nlimit: how many fonts to return.\n",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "default": "",
+            "title": "Query",
+            "type": "string"
+          },
+          "for_text": {
+            "default": "",
+            "title": "For Text",
+            "type": "string"
+          },
+          "directory": {
+            "default": "",
+            "title": "Directory",
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "type": "object",
+        "title": "pdf_list_fontsArguments"
+      }
+    },
+    {
+      "name": "pdf_use_font",
+      "description": "\nUse fonts installed on this machine for the document.\n\nEach argument is a font family name ('Noto Sans', 'DejaVu Sans'),\na font file path, or empty to leave that role unchanged.\nbody: text font. heading: title font. code: monospace font.\nThe bold, italic and bold-italic variants of the family are used when\nthe document asks for bold or italic text.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "body": {
+            "default": "",
+            "title": "Body",
+            "type": "string"
+          },
+          "heading": {
+            "default": "",
+            "title": "Heading",
+            "type": "string"
+          },
+          "code": {
+            "default": "",
+            "title": "Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_use_fontArguments"
+      }
+    },
+    {
+      "name": "pdf_list_templates",
+      "description": "\nList the available document templates with their variables.\n\nEach row gives the id to pass to pdf_render_template, the description,\nthe variables it needs, its palette and its block count.\nPass extra_dir to also list templates in another directory.\n",
+      "inputSchema": {
+        "properties": {
+          "extra_dir": {
+            "default": "",
+            "title": "Extra Dir",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "title": "pdf_list_templatesArguments"
+      }
+    },
+    {
+      "name": "pdf_render_template",
+      "description": "Render a template into a PDF, filling all {{variable}} placeholders.\n\noutput_path is required: the PDF file to write.\n\nGive the template in one of two ways:\n  template_name_or_path: built-in name (e.g. 'invoice') OR path to a .json file.\n  template_json: the template object inline, as a JSON string. Use this when\n                 no built-in template fits. The schema is in this\n                 description; no file has to be written first.\nUse exactly one of them.\n\nvariables_json: JSON object string mapping variable names to values.\n                Example: '{\"company_name\": \"Acme\", \"client_name\": \"John\"}'\n                Every {{placeholder}} in the template must be filled.\n\nTemplate JSON object.\nTop level keys:\n  name, description, version  identity strings\n  variables  object of placeholder -> what the value is. Every {{placeholder}} used in the template must be declared here.\n  document  {page_size, margin_left_cm, margin_right_cm, margin_top_cm, margin_bottom_cm, palette, fonts}. palette is a built-in palette name or null. fonts is {body, heading, code} with family names or font file paths.\n  metadata  {title, author, subject, keywords}\n  header, footer  {left, center, right, font_size, color, show_on_first_page, line_below}\n  page_numbers  bool\n  watermark  string or null\n  blocks  list of {\"kind\": <kind>, \"kwargs\": {<arguments>}}\n\nBlock kinds and their arguments:\n  anchor(name) - Add a named anchor that links can jump to.\n  banner(text, background_color='', text_color='#ffffff', font_size=13, padding_v=10) - Add a full-width colored banner strip with centred text.\n  bullet_list(items, indent_cm=0.5) - Add an unordered bullet list. items is a list of plain strings.\n  code_block(code, language='', caption='', font_size=9) - Add a monospace code block with subtle background.\n  colored_box(text, background_color='#f0f9ff', border_color='#3182ce', title='') - Add a highlighted callout / info box.\n  cover_page(title, subtitle='', author='', date='', logo_path='', background_color='', accent_color='', title_color='#ffffff', style='stripe', title_font_size=38) - Add a full-bleed cover page as the first page of the document.\n  heading(text, level=1, alignment='left', color='') - Add a heading (level 1–3).\n  horizontal_line(width_percent=100, thickness=1, color='#e2e8f0') - Add a horizontal rule. width_percent: 0–100 relative to content width.\n  insert_image(image_path, width_cm=None, height_cm=None, alignment='center', caption='') - Insert an image inline. Supported formats: PNG, JPEG, GIF, BMP.\n  key_metrics(metrics, columns=3) - Add a row of highlighted KPI / metric boxes.\n  numbered_list(items) - Add a numbered (ordered) list. items is a list of plain strings.\n  page_break() - Insert a page break, forcing subsequent content onto a new page.\n  paragraph(text, font_size=11, alignment='justify', bold=False, italic=False, color='', space_after=8) - Add a body paragraph.\n  qr_code(data, size_cm=3.0, caption='') - Generate a QR code from data (URL, text, etc.) and insert it inline.\n  section_divider(title, style='line', color='', accent_color='', font_size=13) - Add a decorative section divider with a title.\n  signature_placeholder(label='Signature', name='', width_cm=7.0, height_cm=2.5, count=1, layout='row') - Add signature placeholder box(es) with dashed line and label.\n  spacer(height_cm=0.5) - Add vertical whitespace between elements.\n  table(data, column_widths_cm=None, header_row=True, zebra_stripes=True, column_alignments=None, repeat_header=True) - Add a data table.\n  table_of_contents(levels=None, title='') - Insert a table of contents and PDF bookmarks built from the headings.\n  two_column(left_text, right_text, left_width_percent=50, gap_cm=0.5) - Lay out two text blocks side by side.",
+      "inputSchema": {
+        "properties": {
+          "template_name_or_path": {
+            "default": "",
+            "title": "Template Name Or Path",
+            "type": "string"
+          },
+          "output_path": {
+            "default": "",
+            "title": "Output Path",
+            "type": "string"
+          },
+          "variables_json": {
+            "default": "{}",
+            "title": "Variables Json",
+            "type": "string"
+          },
+          "template_json": {
+            "default": "",
+            "title": "Template Json",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "title": "pdf_render_templateArguments"
+      }
+    },
+    {
+      "name": "pdf_save_template",
+      "description": "\nSave the current document's layout as a reusable template JSON.\n\nThe template captures all header/footer config, metadata, the palette and\nthe sequence of content blocks. Variables can be added by editing the\nJSON and replacing fixed strings with {{var_name}} placeholders, or by\npassing the template object straight to pdf_render_template.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "output_path": {
+            "title": "Output Path",
+            "type": "string"
+          },
+          "name": {
+            "default": "",
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "output_path"
+        ],
+        "type": "object",
+        "title": "pdf_save_templateArguments"
+      }
+    },
+    {
+      "name": "pdf_inspect_template",
+      "description": "Load and display a template's structure without rendering it.\n\nGive the template the same way pdf_render_template takes it:\n  template_name_or_path: built-in name (e.g. 'invoice') OR path to a .json file.\n  template_json: the template object inline, as a JSON string.\nUse exactly one of them.\n\nReturns: name, description, required variables, and block summary.\n\nTemplate JSON object.\nTop level keys:\n  name, description, version  identity strings\n  variables  object of placeholder -> what the value is. Every {{placeholder}} used in the template must be declared here.\n  document  {page_size, margin_left_cm, margin_right_cm, margin_top_cm, margin_bottom_cm, palette, fonts}. palette is a built-in palette name or null. fonts is {body, heading, code} with family names or font file paths.\n  metadata  {title, author, subject, keywords}\n  header, footer  {left, center, right, font_size, color, show_on_first_page, line_below}\n  page_numbers  bool\n  watermark  string or null\n  blocks  list of {\"kind\": <kind>, \"kwargs\": {<arguments>}}\n\nBlock kinds and their arguments:\n  anchor(name) - Add a named anchor that links can jump to.\n  banner(text, background_color='', text_color='#ffffff', font_size=13, padding_v=10) - Add a full-width colored banner strip with centred text.\n  bullet_list(items, indent_cm=0.5) - Add an unordered bullet list. items is a list of plain strings.\n  code_block(code, language='', caption='', font_size=9) - Add a monospace code block with subtle background.\n  colored_box(text, background_color='#f0f9ff', border_color='#3182ce', title='') - Add a highlighted callout / info box.\n  cover_page(title, subtitle='', author='', date='', logo_path='', background_color='', accent_color='', title_color='#ffffff', style='stripe', title_font_size=38) - Add a full-bleed cover page as the first page of the document.\n  heading(text, level=1, alignment='left', color='') - Add a heading (level 1–3).\n  horizontal_line(width_percent=100, thickness=1, color='#e2e8f0') - Add a horizontal rule. width_percent: 0–100 relative to content width.\n  insert_image(image_path, width_cm=None, height_cm=None, alignment='center', caption='') - Insert an image inline. Supported formats: PNG, JPEG, GIF, BMP.\n  key_metrics(metrics, columns=3) - Add a row of highlighted KPI / metric boxes.\n  numbered_list(items) - Add a numbered (ordered) list. items is a list of plain strings.\n  page_break() - Insert a page break, forcing subsequent content onto a new page.\n  paragraph(text, font_size=11, alignment='justify', bold=False, italic=False, color='', space_after=8) - Add a body paragraph.\n  qr_code(data, size_cm=3.0, caption='') - Generate a QR code from data (URL, text, etc.) and insert it inline.\n  section_divider(title, style='line', color='', accent_color='', font_size=13) - Add a decorative section divider with a title.\n  signature_placeholder(label='Signature', name='', width_cm=7.0, height_cm=2.5, count=1, layout='row') - Add signature placeholder box(es) with dashed line and label.\n  spacer(height_cm=0.5) - Add vertical whitespace between elements.\n  table(data, column_widths_cm=None, header_row=True, zebra_stripes=True, column_alignments=None, repeat_header=True) - Add a data table.\n  table_of_contents(levels=None, title='') - Insert a table of contents and PDF bookmarks built from the headings.\n  two_column(left_text, right_text, left_width_percent=50, gap_cm=0.5) - Lay out two text blocks side by side.",
+      "inputSchema": {
+        "properties": {
+          "template_name_or_path": {
+            "default": "",
+            "title": "Template Name Or Path",
+            "type": "string"
+          },
+          "template_json": {
+            "default": "",
+            "title": "Template Json",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "title": "pdf_inspect_templateArguments"
+      }
+    },
+    {
+      "name": "pdf_configure_header",
+      "description": "Configure the page header (left / center / right text on every page).",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "left": {
+            "default": "",
+            "title": "Left",
+            "type": "string"
+          },
+          "center": {
+            "default": "",
+            "title": "Center",
+            "type": "string"
+          },
+          "right": {
+            "default": "",
+            "title": "Right",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 9,
+            "title": "Font Size",
+            "type": "number"
+          },
+          "color": {
+            "default": "#718096",
+            "title": "Color",
+            "type": "string"
+          },
+          "show_on_first_page": {
+            "default": true,
+            "title": "Show On First Page",
+            "type": "boolean"
+          },
+          "line_below": {
+            "default": false,
+            "title": "Line Below",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_configure_headerArguments"
+      }
+    },
+    {
+      "name": "pdf_configure_footer",
+      "description": "Configure the page footer (left / center / right text on every page).",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "left": {
+            "default": "",
+            "title": "Left",
+            "type": "string"
+          },
+          "center": {
+            "default": "",
+            "title": "Center",
+            "type": "string"
+          },
+          "right": {
+            "default": "",
+            "title": "Right",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 9,
+            "title": "Font Size",
+            "type": "number"
+          },
+          "color": {
+            "default": "#718096",
+            "title": "Color",
+            "type": "string"
+          },
+          "show_on_first_page": {
+            "default": true,
+            "title": "Show On First Page",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_configure_footerArguments"
+      }
+    },
+    {
+      "name": "pdf_enable_page_numbers",
+      "description": "\nShow page numbers centered at the bottom of every page.\n\nformat: 'page' draws 'Page 3'; 'page_of_total' draws 'Page 3 of 12'.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "enabled": {
+            "default": true,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "format": {
+            "default": "page",
+            "enum": [
+              "page",
+              "page_of_total"
+            ],
+            "title": "Format",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_enable_page_numbersArguments"
+      }
+    },
+    {
+      "name": "pdf_set_watermark",
+      "description": "Add diagonal watermark text (e.g. 'DRAFT', 'CONFIDENTIAL') on every page.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "text"
+        ],
+        "type": "object",
+        "title": "pdf_set_watermarkArguments"
+      }
+    },
+    {
+      "name": "pdf_add_table_of_contents",
+      "description": "\nInsert a table of contents and PDF bookmarks built from the headings.\n\nCall it before the content it lists. levels: heading levels to include,\ne.g. [1, 2]. title: optional heading shown above the table.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "levels": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Levels"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_add_table_of_contentsArguments"
+      }
+    },
+    {
+      "name": "pdf_add_anchor",
+      "description": "\nAdd a named anchor that links can jump to.\n\nLink to it from text with <a href=\"#name\">click</a>.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "name"
+        ],
+        "type": "object",
+        "title": "pdf_add_anchorArguments"
+      }
+    },
+    {
+      "name": "pdf_add_heading",
+      "description": "\nAdd a heading (level 1–3).\n\nHTML tags inside text are NOT supported for headings; use plain text.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "level": {
+            "default": 1,
+            "title": "Level",
+            "type": "integer"
+          },
+          "alignment": {
+            "default": "left",
+            "enum": [
+              "left",
+              "center",
+              "right"
+            ],
+            "title": "Alignment",
+            "type": "string"
+          },
+          "color": {
+            "default": "",
+            "title": "Color",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "text"
+        ],
+        "type": "object",
+        "title": "pdf_add_headingArguments"
+      }
+    },
+    {
+      "name": "pdf_add_paragraph",
+      "description": "\nAdd a body paragraph.\n\nSupports minimal HTML: <b>, <i>, <u>, <br/>.\nLinks: <a href=\"https://example.com\">text</a> for an external link,\n<a href=\"#anchor\">text</a> to jump to an anchor made with pdf_add_anchor.\nalignment: left | center | right | justify\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 11,
+            "title": "Font Size",
+            "type": "number"
+          },
+          "alignment": {
+            "default": "justify",
+            "enum": [
+              "left",
+              "center",
+              "right",
+              "justify"
+            ],
+            "title": "Alignment",
+            "type": "string"
+          },
+          "bold": {
+            "default": false,
+            "title": "Bold",
+            "type": "boolean"
+          },
+          "italic": {
+            "default": false,
+            "title": "Italic",
+            "type": "boolean"
+          },
+          "color": {
+            "default": "",
+            "title": "Color",
+            "type": "string"
+          },
+          "space_after": {
+            "default": 8,
+            "title": "Space After",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "text"
+        ],
+        "type": "object",
+        "title": "pdf_add_paragraphArguments"
+      }
+    },
+    {
+      "name": "pdf_add_bullet_list",
+      "description": "Add an unordered bullet list. items is a list of plain strings.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "indent_cm": {
+            "default": 0.5,
+            "title": "Indent Cm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "items"
+        ],
+        "type": "object",
+        "title": "pdf_add_bullet_listArguments"
+      }
+    },
+    {
+      "name": "pdf_add_numbered_list",
+      "description": "Add a numbered (ordered) list. items is a list of plain strings.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "doc_id",
+          "items"
+        ],
+        "type": "object",
+        "title": "pdf_add_numbered_listArguments"
+      }
+    },
+    {
+      "name": "pdf_add_spacer",
+      "description": "Add vertical whitespace between elements.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "height_cm": {
+            "default": 0.5,
+            "title": "Height Cm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_add_spacerArguments"
+      }
+    },
+    {
+      "name": "pdf_add_horizontal_line",
+      "description": "Add a horizontal rule. width_percent: 0–100 relative to content width.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "width_percent": {
+            "default": 100,
+            "title": "Width Percent",
+            "type": "number"
+          },
+          "thickness": {
+            "default": 1,
+            "title": "Thickness",
+            "type": "number"
+          },
+          "color": {
+            "default": "#e2e8f0",
+            "title": "Color",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_add_horizontal_lineArguments"
+      }
+    },
+    {
+      "name": "pdf_add_page_break",
+      "description": "Insert a page break, forcing subsequent content onto a new page.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_add_page_breakArguments"
+      }
+    },
+    {
+      "name": "pdf_insert_image",
+      "description": "\nInsert an image inline. Supported formats: PNG, JPEG, GIF, BMP.\n\nwidth_cm / height_cm: explicit dimensions in cm. Give one to scale it,\nor both to fit the image inside that box without distorting it.\ncaption: optional caption shown below the image.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "image_path": {
+            "title": "Image Path",
+            "type": "string"
+          },
+          "width_cm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Width Cm"
+          },
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Height Cm"
+          },
+          "alignment": {
+            "default": "center",
+            "enum": [
+              "left",
+              "center",
+              "right"
+            ],
+            "title": "Alignment",
+            "type": "string"
+          },
+          "caption": {
+            "default": "",
+            "title": "Caption",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "image_path"
+        ],
+        "type": "object",
+        "title": "pdf_insert_imageArguments"
+      }
+    },
+    {
+      "name": "pdf_add_qr_code",
+      "description": "Generate a QR code from data (URL, text, etc.) and insert it inline.",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "data": {
+            "title": "Data",
+            "type": "string"
+          },
+          "size_cm": {
+            "default": 3.0,
+            "title": "Size Cm",
+            "type": "number"
+          },
+          "caption": {
+            "default": "",
+            "title": "Caption",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "data"
+        ],
+        "type": "object",
+        "title": "pdf_add_qr_codeArguments"
+      }
+    },
+    {
+      "name": "pdf_add_table",
+      "description": "\nAdd a data table.\n\ndata: list of rows; each row is a list of cell strings.\ncolumn_widths_cm: explicit column widths in cm (auto if omitted).\nheader_row: style the first row as a header.\nzebra_stripes: alternate row background colors.\ncolumn_alignments: per column alignment, e.g. ['left', 'right'].\nrepeat_header: repeat the header row when the table splits across pages.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "data": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "column_widths_cm": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Column Widths Cm"
+          },
+          "header_row": {
+            "default": true,
+            "title": "Header Row",
+            "type": "boolean"
+          },
+          "zebra_stripes": {
+            "default": true,
+            "title": "Zebra Stripes",
+            "type": "boolean"
+          },
+          "column_alignments": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Column Alignments"
+          },
+          "repeat_header": {
+            "default": true,
+            "title": "Repeat Header",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "doc_id",
+          "data"
+        ],
+        "type": "object",
+        "title": "pdf_add_tableArguments"
+      }
+    },
+    {
+      "name": "pdf_add_colored_box",
+      "description": "\nAdd a highlighted callout / info box.\n\nSupports minimal HTML in text: <b>, <i>, <br/>.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "background_color": {
+            "default": "#f0f9ff",
+            "title": "Background Color",
+            "type": "string"
+          },
+          "border_color": {
+            "default": "#3182ce",
+            "title": "Border Color",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "text"
+        ],
+        "type": "object",
+        "title": "pdf_add_colored_boxArguments"
+      }
+    },
+    {
+      "name": "pdf_add_cover_page",
+      "description": "\nAdd a full-bleed cover page as the first page of the document.\n\nThe cover is always placed first, even when it is called after other\ncontent, so a document never ends up with content in front of it.\nIt uses the session's palette primary/accent colors by default.\n\nstyle options:\n  stripe  — horizontal accent band across the page (default)\n  split   — right-side accent panel\n  minimal — thin top/bottom accent lines, clean layout\n\nbackground_color / accent_color: override palette defaults.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "subtitle": {
+            "default": "",
+            "title": "Subtitle",
+            "type": "string"
+          },
+          "author": {
+            "default": "",
+            "title": "Author",
+            "type": "string"
+          },
+          "date": {
+            "default": "",
+            "title": "Date",
+            "type": "string"
+          },
+          "logo_path": {
+            "default": "",
+            "title": "Logo Path",
+            "type": "string"
+          },
+          "background_color": {
+            "default": "",
+            "title": "Background Color",
+            "type": "string"
+          },
+          "accent_color": {
+            "default": "",
+            "title": "Accent Color",
+            "type": "string"
+          },
+          "title_color": {
+            "default": "#ffffff",
+            "title": "Title Color",
+            "type": "string"
+          },
+          "style": {
+            "default": "stripe",
+            "enum": [
+              "stripe",
+              "split",
+              "minimal"
+            ],
+            "title": "Style",
+            "type": "string"
+          },
+          "title_font_size": {
+            "default": 38,
+            "title": "Title Font Size",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "title"
+        ],
+        "type": "object",
+        "title": "pdf_add_cover_pageArguments"
+      }
+    },
+    {
+      "name": "pdf_add_section_divider",
+      "description": "\nAdd a decorative section divider with a title.\n\nstyle options:\n  line      — ─── TITLE ─── (centred with rules on both sides)\n  bar       — ▌ TITLE       (left vertical accent bar)\n  underline — TITLE + full-width underline\n  diamond   — ◆  TITLE  ◆  (diamond decorations)\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "style": {
+            "default": "line",
+            "enum": [
+              "line",
+              "bar",
+              "underline",
+              "diamond"
+            ],
+            "title": "Style",
+            "type": "string"
+          },
+          "color": {
+            "default": "",
+            "title": "Color",
+            "type": "string"
+          },
+          "accent_color": {
+            "default": "",
+            "title": "Accent Color",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 13,
+            "title": "Font Size",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "title"
+        ],
+        "type": "object",
+        "title": "pdf_add_section_dividerArguments"
+      }
+    },
+    {
+      "name": "pdf_add_key_metrics",
+      "description": "\nAdd a row of highlighted KPI / metric boxes.\n\nmetrics: list of dicts with keys:\n  - value   (str)  — the big number/value shown prominently\n  - label   (str)  — description below the value\n  - color   (str, optional) — override box background color\n\ncolumns: how many boxes per row (1–4).\n\nExample:\n  metrics=[\n    {\"value\": \"$1.2M\",  \"label\": \"Revenue\"},\n    {\"value\": \"98%\",    \"label\": \"Satisfaction\"},\n    {\"value\": \"142\",    \"label\": \"Clients\", \"color\": \"#f0fff4\"},\n  ]\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "metrics": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Metrics",
+            "type": "array"
+          },
+          "columns": {
+            "default": 3,
+            "title": "Columns",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "doc_id",
+          "metrics"
+        ],
+        "type": "object",
+        "title": "pdf_add_key_metricsArguments"
+      }
+    },
+    {
+      "name": "pdf_add_two_column",
+      "description": "\nLay out two text blocks side by side.\n\nBoth blocks support minimal HTML: <b>, <i>, <br/>.\nleft_width_percent: width of the left column (right gets the remainder).\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "left_text": {
+            "title": "Left Text",
+            "type": "string"
+          },
+          "right_text": {
+            "title": "Right Text",
+            "type": "string"
+          },
+          "left_width_percent": {
+            "default": 50,
+            "title": "Left Width Percent",
+            "type": "number"
+          },
+          "gap_cm": {
+            "default": 0.5,
+            "title": "Gap Cm",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "left_text",
+          "right_text"
+        ],
+        "type": "object",
+        "title": "pdf_add_two_columnArguments"
+      }
+    },
+    {
+      "name": "pdf_add_code_block",
+      "description": "\nAdd a monospace code block with subtle background.\n\ncode: the source code or command text (newlines preserved).\nlanguage: optional label shown as caption (e.g. 'Python', 'SQL').\ncaption: overrides language label if provided.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "language": {
+            "default": "",
+            "title": "Language",
+            "type": "string"
+          },
+          "caption": {
+            "default": "",
+            "title": "Caption",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 9,
+            "title": "Font Size",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "code"
+        ],
+        "type": "object",
+        "title": "pdf_add_code_blockArguments"
+      }
+    },
+    {
+      "name": "pdf_add_banner",
+      "description": "\nAdd a full-width colored banner strip with centred text.\n\nUseful for section announcements, call-to-action strips, or chapter titles.\nbackground_color defaults to the palette's primary color.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "background_color": {
+            "default": "",
+            "title": "Background Color",
+            "type": "string"
+          },
+          "text_color": {
+            "default": "#ffffff",
+            "title": "Text Color",
+            "type": "string"
+          },
+          "font_size": {
+            "default": 13,
+            "title": "Font Size",
+            "type": "number"
+          },
+          "padding_v": {
+            "default": 10,
+            "title": "Padding V",
+            "type": "number"
+          }
+        },
+        "required": [
+          "doc_id",
+          "text"
+        ],
+        "type": "object",
+        "title": "pdf_add_bannerArguments"
+      }
+    },
+    {
+      "name": "pdf_add_signature_placeholder",
+      "description": "\nAdd signature placeholder box(es) with dashed line and label.\n\ncount: 1–4 signature boxes.\nlayout: 'row' places them side-by-side; 'column' stacks them.\n",
+      "inputSchema": {
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "label": {
+            "default": "Signature",
+            "title": "Label",
+            "type": "string"
+          },
+          "name": {
+            "default": "",
+            "title": "Name",
+            "type": "string"
+          },
+          "width_cm": {
+            "default": 7.0,
+            "title": "Width Cm",
+            "type": "number"
+          },
+          "height_cm": {
+            "default": 2.5,
+            "title": "Height Cm",
+            "type": "number"
+          },
+          "count": {
+            "default": 1,
+            "title": "Count",
+            "type": "integer"
+          },
+          "layout": {
+            "default": "row",
+            "enum": [
+              "row",
+              "column"
+            ],
+            "title": "Layout",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "type": "object",
+        "title": "pdf_add_signature_placeholderArguments"
+      }
+    },
+    {
+      "name": "pdf_read_file_info",
+      "description": "\nRead metadata and structure from an existing PDF file.\n\nReturns: page count, encryption status, document metadata, outline.\n",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object",
+        "title": "pdf_read_file_infoArguments"
+      }
+    },
+    {
+      "name": "pdf_read_file_text",
+      "description": "\nExtract text from an existing PDF.\n\npages: comma-separated 1-based page numbers (empty = all pages).\nExample: pages='1,3,5'  — extracts only pages 1, 3, and 5.\n",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "pages": {
+            "default": "",
+            "title": "Pages",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object",
+        "title": "pdf_read_file_textArguments"
+      }
+    },
+    {
+      "name": "pdf_read_file_page_sizes",
+      "description": "Get the media-box dimensions (in points) of each page in an existing PDF.",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object",
+        "title": "pdf_read_file_page_sizesArguments"
+      }
+    }
+  ],
+  "toolsSyncedAt": 1793305374
+}

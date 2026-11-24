@@ -1,0 +1,940 @@
+{
+  "id": "global/theorim",
+  "scope": "global",
+  "name": "theorim",
+  "enabled": false,
+  "transport": "http",
+  "url": "http://localhost:8080/api/mcp",
+  "tools": [
+    {
+      "name": "admin_create_dataset",
+      "description": "Create a new dataset.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "__object",
+          "title"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "__object": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_create_user",
+      "description": "Create a user.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "__object",
+          "email"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "__object": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_delete_dataset",
+      "description": "Delete a dataset and its data.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_delete_tool",
+      "description": "Delete a tool, its Lambda, its code and its secrets.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_delete_user",
+      "description": "Delete a user.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_exec_issue_key",
+      "description": "Issue an API key for a user.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_exec_reset_user_password",
+      "description": "Reset a user's password.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_exec_revoke_key",
+      "description": "Revoke a user's API key.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_exec_sync_users",
+      "description": "Sync Cognito users into the user-profile store.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {}
+      }
+    },
+    {
+      "name": "admin_get_data",
+      "description": "List admin-scoped data (users, datasets, history, tools, _logs).",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "__object"
+        ],
+        "properties": {
+          "__object": {
+            "type": "string",
+            "description": "One of users, datasets, history, tools, _logs."
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_get_def",
+      "description": "Get the admin dataset definition.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {}
+      }
+    },
+    {
+      "name": "admin_get_item",
+      "description": "Get a single admin-scoped item by id.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_id"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_update_dataset",
+      "description": "Update dataset owners / settings.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id",
+          "_owners"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "_parent": {
+            "type": "string"
+          },
+          "_owners": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    {
+      "name": "admin_update_user",
+      "description": "Update a user's admin/service-account flags or token limit.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "service_account": {
+            "type": "boolean"
+          },
+          "aiBudget": {
+            "type": "number",
+            "minimum": 0,
+            "multipleOf": 0.01
+          }
+        }
+      }
+    },
+    {
+      "name": "appdata_help",
+      "description": "User guide for the Theorim application as markdown. Call when the user asks how to use the app, a screen or a feature: topic user (datasets, records, files, AI chat), modeler (schemas, fields, tables, roles), admin (users, datasets, tools, API keys) or api (HTTP API and MCP).",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "topic"
+        ],
+        "properties": {
+          "topic": {
+            "type": "string",
+            "enum": [
+              "user",
+              "modeler",
+              "admin",
+              "api"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_get_chat_document",
+      "description": "Read a document the user uploaded to this chat, when its \"Attached document\" message offers it (pdf, csv, doc, docx, xls, xlsx, html, txt or md, at most 4.5 MB). The document is returned in full for this turn only, so call it only when the answer requires the document contents, and call it again in a later turn if needed. A document that is larger or in another format is refused with instructions to use mcp_run_python instead; prefer mcp_run_python anyway for counting, matching or aggregating tabular data.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fileKey"
+        ],
+        "properties": {
+          "fileKey": {
+            "type": "string",
+            "description": "fileKey from an \"Attached document\" message.",
+            "pattern": "^_chats/"
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_get_tool_result",
+      "description": "Re-read the full result of an earlier tool call that was stubbed in the conversation. The $stubbed note on the result gives the messageId and toolUseId. Call only when the full data is needed again.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "messageId",
+          "toolUseId"
+        ],
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "pattern": "^message\\$"
+          },
+          "toolUseId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_load_modeler_tool",
+      "description": "Get the definition of a MODELER tool for defining dataset schemas. Always call before attempting a modeler tool call.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dataset",
+          "operation"
+        ],
+        "properties": {
+          "dataset": {
+            "type": "string",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "operation": {
+            "type": "string",
+            "description": "Route name of the modeler tool to load.",
+            "enum": [
+              "modeler_get_def",
+              "modeler_get_data",
+              "modeler_get_item",
+              "modeler_create_role",
+              "modeler_delete_role",
+              "modeler_create_user",
+              "modeler_update_user",
+              "modeler_delete_user",
+              "modeler_exec_import_dataset",
+              "modeler_create_jtable",
+              "modeler_update_jtable",
+              "modeler_delete_jtable",
+              "modeler_create_schema",
+              "modeler_update_schema",
+              "modeler_delete_schema",
+              "modeler_create_prop",
+              "modeler_update_prop",
+              "modeler_delete_prop"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_load_user_tool",
+      "description": "Get the exact definition of a USER tool scoped to a dataset, for tools that are not already listed (writes, comments, clipboard, import). Confirm the dataset with the user first if the request could refer to more than one. Call it, then call the returned tool by its returned name. Tools already in the list can be called directly.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "toolName"
+        ],
+        "properties": {
+          "toolName": {
+            "type": "string",
+            "description": "Route name of the user tool to load.",
+            "enum": [
+              "user_create_data",
+              "user_update_data",
+              "user_delete_data",
+              "user_exec_restore",
+              "user_create_comment",
+              "user_import_zip",
+              "user_export_data",
+              "appdata_datasets",
+              "appdata_userdatasets",
+              "appdata_users",
+              "appdata_roles"
+            ]
+          },
+          "dataset": {
+            "type": "string",
+            "description": "Required for tools that take _pk.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "schema": {
+            "type": "string",
+            "description": "Required for user_create_data and user_update_data. Restricts other tools to one schema."
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_run_python",
+      "description": "Run a Python 3.13 snippet (up to 5 minutes, 2 GB) against S3 objects named by key: documents uploaded to this chat (fileKey from an \"Attached document\" message) and stored query results (S3Key on a tool result). WHEN: any answer that needs counting, matching, joining, deduplicating, aggregating or converting more than a handful of rows, reading a spreadsheet or converting a document with pandoc, and ALWAYS when a tool result carries S3Key: those rows were never returned to you and no other tool can read them. Never enumerate or compare rows in reasoning. LOADING: every s3Keys entry is downloaded before the snippet runs. Type follows the extension (override with type): .json is parsed into Data[key], and a stored query result is the full tool response with rows under Data[key][\"Items\"]; .csv/.tsv/.txt/.md/.html/.xml/.yaml is a str in Data[key]; anything else (pdf, docx, xlsx, pptx) puts a local file path in Data[key]. Paths[key] always holds a local file path, so pd.read_csv(Paths[key]) or pd.read_excel(Paths[key]) is the easiest way in. PAGING: a paged query produces one S3Key per page. Page with LastKey while Overflow is true, collect every S3Key, then make ONE call with all of them and concatenate Data[k][\"Items\"] across keys. Pages under the stub threshold arrive inline; embed those rows as a literal in the snippet if they must be combined. SCOPE: Data, Paths, pd (pandas), np (numpy), json and pypandoc are bound; import io, re, openpyxl, rapidfuzz, unidecode, pypdf, pptx, bs4, yaml or tabulate as needed. No network, no access to the datasets, nothing is persisted: the sandbox cannot write to S3, so everything needed must come back in result. OUTPUT: assign the answer to `result`; a DataFrame, Series, numpy value, dict, list or scalar is converted to JSON. Keep it small (aggregates, counts, at most ~20 sample rows); over 200 KB is truncated. print() output is returned as stdout (last 20 KB) for diagnostics, not data. ERRORS: a raised exception returns the traceback (fix the snippet and retry); a key that cannot be read returns a 400.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pyCode"
+        ],
+        "properties": {
+          "pyCode": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Python source. Assign the value to return to `result`."
+          },
+          "s3Keys": {
+            "type": "array",
+            "description": "Keys to load before the snippet runs: chat document fileKeys (from \"Attached document\" messages) or S3Key values from tool results.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^_chats/",
+                  "description": "fileKey of a document uploaded to this chat, or the S3Key of a stored tool result."
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "text",
+                    "binary"
+                  ],
+                  "description": "Override the type inferred from the file extension."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_search_user_tools",
+      "description": "Search custom Lambda-backed tools available to the user. Returns full tool definitions including inputSchema, so results can be called directly. Use when no default tool fits the request.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "What the user is trying to do, in plain language. Omit to list every available tool."
+          }
+        }
+      }
+    },
+    {
+      "name": "user_exec_ai_action",
+      "description": "Run an AI action on a record field.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id",
+          "field"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "_id": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "user_file_summarize",
+      "description": "Re-summarize a file.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "field",
+          "id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "schema": {
+            "type": "string",
+            "description": "Schema name (optional, derived from id if not provided)."
+          },
+          "field": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "user_file_text",
+      "description": "Get the extracted text or AI summary of a file attached to a record. Text exists only for fields with auto-extraction, or after extract=true. Locate files in the record's file field array: each entry has fileKey \"<dataset>/<schema>/<field>/<id>/<fileId>\" and fileName.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "schema",
+          "field",
+          "id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "schema": {
+            "type": "string",
+            "description": "Schema $id of the record."
+          },
+          "field": {
+            "type": "string",
+            "description": "File field name as it appears on the record (file fields start with *)."
+          },
+          "id": {
+            "type": "string",
+            "description": "Record _id."
+          },
+          "fileId": {
+            "type": "string",
+            "description": "Last segment of the file entry's fileKey. Required for text; omit for a field summary."
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "text",
+              "summary"
+            ],
+            "description": "text (default) returns the extracted text row; summary returns the AI summary of the whole field."
+          },
+          "extract": {
+            "type": "boolean",
+            "description": "With action text: if no text exists yet, start extraction and return extractStatus \"running\"; call again a few seconds later until extractStatus is \"complete\". Works on PDF and image files."
+          }
+        }
+      }
+    },
+    {
+      "name": "user_get_data",
+      "description": "Query records from a dataset. __object (a schemas[].$id from user_get_def) limits results to one schema; omit it to query every schema the caller can read. Filters on _id, _index, _parent, _path or _updated use an index (one per query); all other Filters, and any query with no key filter, scan the dataset partition and post-filter, which is allowed by default (AllowNoKey). _parent is the concatenated _id chain of ancestors, _path the concatenated _index chain. _index is generally preferred for lookups. Non-system fields from user_get_def may also be used as filters.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "__object": {
+            "type": "string",
+            "description": "Optional schema $id. Restricts results to that schema and enables the _index lookup."
+          },
+          "Index": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "_index",
+              "_parent",
+              "_path",
+              "_updated"
+            ],
+            "description": "Name of the dynamodb index to query. Only set if a filter on that index is used."
+          },
+          "Fields": {
+            "type": [
+              "array"
+            ],
+            "description": "Fields to return. If not set, returns all fields. System columns (_id, _index, _parent, _path, _updated, __object) are added unless NoDefaultCols is true."
+          },
+          "NoDefaultCols": {
+            "type": "boolean",
+            "description": "With Fields, return only the listed fields and no system columns. Use to keep large result sets small."
+          },
+          "MaxSize": {
+            "type": "number",
+            "default": 10240,
+            "description": "Page budget in KB."
+          },
+          "AllowNoKey": {
+            "type": "boolean",
+            "default": true,
+            "description": "Defaults to true: queries without a key filter (_id, _index, _parent, _path, _updated) read the whole dataset partition and post-filter. Set false to require a key filter."
+          },
+          "LastKey": {
+            "type": "string",
+            "description": "Pagination key"
+          },
+          "Count": {
+            "type": "boolean",
+            "description": "Set to true to only return the count of matching records"
+          },
+          "Sum": {
+            "type": "boolean",
+            "description": "Set to true to return the sum of matching records"
+          },
+          "Filters": {
+            "type": "array",
+            "description": "Conditions combined with AND. At most one key field (_id, _index, _parent, _path, _updated) per query; it becomes the index sort key and the rest are post-filters.",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "operator"
+              ],
+              "anyOf": [
+                {
+                  "properties": {
+                    "field": {
+                      "const": "_id",
+                      "description": "Record id \"<schema>$<epoch ms><2 chars>\". begins_with \"<schema>$\" for all records of a schema, = for one record."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "begins_with"
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "field": {
+                      "const": "_index",
+                      "description": "Record title, stored uppercased without punctuation. begins_with is a prefix match, = is exact."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "begins_with"
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "field": {
+                      "const": "_parent",
+                      "description": "Ancestor _ids joined by \"-\". = a parent chain for direct children, begins_with for the whole subtree."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "begins_with"
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "field": {
+                      "const": "_path",
+                      "description": "Ancestor _index values joined by \"/\", uppercased. begins_with a parent path for its subtree."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "begins_with"
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "field": {
+                      "const": "_updated",
+                      "description": "Last-modified ISO timestamp."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "begins_with",
+                        ">",
+                        "<",
+                        ">=",
+                        "<="
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "description": "Any property name from user_get_def. Applied as a post-filter."
+                    },
+                    "operator": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "<>",
+                        "<",
+                        ">",
+                        "begins_with",
+                        "contains",
+                        "in",
+                        "attribute_exists",
+                        "attribute_not_exists"
+                      ]
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "array"
+                      ],
+                      "description": "Omit for attribute_exists / attribute_not_exists. Array for in."
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "user_get_def",
+      "description": "Get a dataset definition. Always call this prior to using any other user dataset tools. schemas[].$id is the __object of its records and the _id prefix; schemas[].properties are the field names usable in Filters and Fields ($is is the field type, enum lists allowed values, lookup names the related dataset/schema); $allow and readOnly show what the caller may write.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "mcp": {
+            "type": "boolean",
+            "description": "Return a compact definition for tool use: only schemas the caller can read, without jtables, views or record metadata."
+          }
+        }
+      }
+    },
+    {
+      "name": "user_get_history",
+      "description": "Get history records for an item.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "user_get_item",
+      "description": "Get a single record by id. Pass children=true to also return its descendant records under _children.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "_pk",
+          "_id"
+        ],
+        "properties": {
+          "_pk": {
+            "type": "string",
+            "description": "Dataset name.",
+            "enum": [
+              "cristina_test",
+              "crm",
+              "keiner_test",
+              "theorim_pm",
+              "wp_crm"
+            ]
+          },
+          "_id": {
+            "type": "string"
+          },
+          "Cols": {
+            "type": [
+              "array",
+              "string"
+            ]
+          },
+          "children": {
+            "type": [
+              "boolean",
+              "string"
+            ],
+            "description": "If true, include descendant records in _children."
+          },
+          "MaxSize": {
+            "type": [
+              "integer",
+              "string"
+            ],
+            "description": "Optional page budget in KB for the children."
+          }
+        }
+      }
+    }
+  ],
+  "toolsSyncedAt": 1793193551
+}
