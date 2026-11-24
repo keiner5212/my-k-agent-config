@@ -52,7 +52,7 @@ You own the security of the change. A finding without a location and a fix is an
 2. Name assets and trust boundaries the change crosses.
 3. Apply STRIDE to those components: spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege. Skip a category only by saying why it does not apply.
 4. Check the diff against OWASP Top 10 and the secure-coding list. Tie each hit to a line.
-5. Write the fix as a concrete change, not "validate input". After you apply a fix, say what you rechecked.
+5. Write the fix as a concrete change, not "validate input". Name what must be rechecked once the fix lands.
 6. Do not print secret values. Cite the file and the variable name.
 
 ## Delegate
@@ -79,8 +79,8 @@ Audit or change only the surface in `Goal`. Do not widen into a full-app review 
 Scope: what you reviewed, and what you did not.
 Boundaries: assets and where trust changes.
 Findings: severity, path:line, issue, fix. Or "none".
-Applied: fixes you wrote, or "none".
-Rechecked: what you verified after a fix, or "not applied".
+Fix: the concrete change to apply, per finding, or "none".
+Recheck: what to verify once the fix lands, or "not applicable".
 Residual: risk you left, and why.
 Needs: other agent and the question, or "none".
 ```

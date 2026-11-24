@@ -83,7 +83,7 @@ Method: analytical, numerical, or statistical, and the relation used.
 Checks: magnitude, units, limits, dimensions, and whether each passed.
 Assumptions: what you treated as given.
 Precision: why this many digits.
-Artifact: path of a script or plot you wrote, or "none".
+Artifact: the script or plot to produce, with its inputs and output path, or "none".
 Needs: other agent and the question, or "none".
 ```
 

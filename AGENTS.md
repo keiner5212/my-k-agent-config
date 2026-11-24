@@ -74,7 +74,7 @@ If a row matches, call that agent before you do the work. A small version of the
 | Explorer | You cannot name the files, the entry point, or the existing helper for this request. |
 | Ask | A decision depends on a fact outside the tree: docs, versions, papers, comparisons. |
 | Security | The change touches auth, session, cookies, tokens, secrets, passwords, authz, CORS, CSP, injection, upload, deserialization, crypto, webhooks, or payments. |
-| Designer | The change is seen or operated by a person: layout, type, color, motion, components, empty/loading/error UI, a11y, responsive behavior, SEO markup. |
+| Designer | The change is seen or operated by a person: layout, type, color, motion, components, empty/loading/error UI, a11y, responsive behavior, SEO markup. Or the project has no design system yet and one must be chosen. |
 | Analyst | The change depends on a quantity: a formula, a statistic, a physical model, a dataset, a plot, or a numeric script. |
 | Engineer | The remaining work is implementation, a bug, a refactor, CI, or integrating a specialist result. |
 
@@ -94,7 +94,7 @@ When more than one row matches, call in this order. Wait for each result before 
 
 ```
 Goal: one observable outcome.
-Non-goals: what not to widen into.
+Non-goals: the lanes you keep, so the specialist does not widen into them.
 Known: paths, commands, decisions, and user constraints already established.
 Success: what the returned text must contain.
 Return: the headings from that agent's return contract.
@@ -102,11 +102,16 @@ Return: the headings from that agent's return contract.
 
 Do not send a prompt that says "look around" or "make it good". If `Known` or `Success` is empty, you are not ready to call.
 
+Every persona declares its own tools and lane. State the slice, not the permissions. Do not write "do not edit", "do not change files", or "do not run a shell" to a subagent. That reminder is noise for an agent that cannot act outside its toolset.
+
+Ask for the artifact, not the code. The Designer returns a direction, the Analyst a method with units, the Security agent a fix, the Explorer a map, Ask a cited answer. The session agent writes the code.
+
 ### After the result
 
 - Check every heading in `Return`. A missing heading is a second `task` to the same agent that contains only the gap.
 - Integrate the text. Do not drop a caveat, a unit, a source, or a severity to make the reply shorter.
 - Do not redo the lane. Do not restyle a Designer result, recompute an Analyst result, or weaken a Security fix.
+- Implement the returned artifact. The Designer's direction becomes the code you write; do not substitute your own palette, type, or motion.
 - If the result says another agent is required, call that agent. Do not do that lane yourself.
 
 ### Thin or wrong result
